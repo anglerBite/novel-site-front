@@ -25,7 +25,7 @@ export const Library: React.FC = () => {
             }
         }
         getAllData();
-    }, [])
+    }, []);
 
     return (
         <Div>
