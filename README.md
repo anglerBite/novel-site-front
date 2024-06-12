@@ -1,3 +1,8 @@
+今回このサイトを作成しようと思った経緯は、姉が小説を書くのが好きで大手小説投稿サイトに投稿していたことが背景にあります。
+大手のサイトではたくさんの広告が表示されており、私は差別化を図るためよりシンプルなサイトづくりを目指しあえて装飾を少なくしております。
+いずれは実際に使ってもらい、よりよいものに改善していく予定です。
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -28,4 +33,3 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# novel-site-front
