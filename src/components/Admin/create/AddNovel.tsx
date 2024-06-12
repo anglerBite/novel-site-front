@@ -9,7 +9,7 @@ export const AddNovel: React.FC = () => {
 
     const {bool, novelUrl} = useContext(AppContext);
     const [data, setData] = useState<Data[]>([]);
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormType>();
+    const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm<FormType>();
 
     useEffect(() => {
         const getAllData = async () => {
@@ -33,7 +33,7 @@ export const AddNovel: React.FC = () => {
         try {
             await axios.post(novelUrl, data);
             alert('投稿完了しました');
-            location.reload();
+            reset();
         } catch (err) {
             alert(err);
         }

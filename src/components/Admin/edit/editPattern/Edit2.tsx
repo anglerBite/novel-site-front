@@ -10,7 +10,7 @@ export const Edit2: React.FC = () => {
 
     // const navigate = useNavigate();
     const { bool, novelUrl } = useContext(AppContext);
-    const { register, handleSubmit, formState: { errors } } = useForm<FormType>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormType>();
     const location = useLocation();
     const { index: stateIndex } = location.state;
 
@@ -21,7 +21,7 @@ export const Edit2: React.FC = () => {
             const response = await axios.patch(`${novelUrl}/index?oldIndex=${stateIndex}&newIndex=${index}`);
             console.log(response)
             alert('修正が完了しました。');
-            // navigate('/index');
+            reset();
         } catch (err) {
             console.log(err)
         }

@@ -11,7 +11,7 @@ export const Edit1: React.FC = () => {
     const location = useLocation();
     const { bool, novelUrl } = useContext(AppContext);
     const { title: stateTitle } = location.state;
-    const { register, handleSubmit, formState: { errors } } = useForm<FormType>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormType>();
 
     const [title, setTitle] = useState(stateTitle);
 
@@ -19,7 +19,8 @@ export const Edit1: React.FC = () => {
         try {
             const response = await axios.patch(`${novelUrl}?oldTitle=${stateTitle}&newTitle=${title}`);
             console.log(response);
-            alert('修正が完了しました。')
+            alert('修正が完了しました。');
+            reset();
         } catch (err) {
             console.log(err)
         }

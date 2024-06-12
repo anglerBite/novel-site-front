@@ -11,13 +11,14 @@ export const Edit3: React.FC = () => {
     const { bool, novelUrl } = useContext(AppContext);
     const location = useLocation();
     const { text: stateText } = location.state;
-    const { register, handleSubmit, formState: { errors } } = useForm<FormType>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormType>();
     const [text, setText] = useState(stateText);
 
     const onSubmit = async () => {
         const response = await axios.patch(`${novelUrl}/text?oldText=${stateText}&newText=${text}`)
         console.log(response);
-        alert('修正が完了しました。')
+        alert('修正が完了しました。');
+        reset();
     }
 
     return (

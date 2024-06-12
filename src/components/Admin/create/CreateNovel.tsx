@@ -8,12 +8,13 @@ import { FormType } from "../../../types/types";
 export const CreateNovel: React.FC = () => {
 
     const { bool, novelUrl } = useContext(AppContext)
-    const { register, handleSubmit, formState: { errors } } = useForm<FormType>();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormType>();
 
     const onSubmit = async (data: FormType) => {
         try {
             await axios.post(novelUrl, data);
             alert('投稿完了しました');
+            reset();
         } catch (err) {
             alert(err);
         }
