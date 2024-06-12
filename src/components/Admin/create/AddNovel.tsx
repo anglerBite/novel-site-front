@@ -1,16 +1,35 @@
-import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import styled from "styled-components"
+import { useForm } from "react-hook-form"
 import axios from "axios";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../../main";
-import { FormType } from "../../../types/types";
+import {FormType, Data} from "../../../types/types";
 
-export const CreateNovel: React.FC = () => {
+export const AddNovel: React.FC = () => {
 
-    const { bool, novelUrl } = useContext(AppContext)
-    const { register, handleSubmit, formState: { errors } } = useForm<FormType>();
+    const {bool, novelUrl} = useContext(AppContext);
+    const [data, setData] = useState<Data[]>([]);
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormType>();
+
+    useEffect(() => {
+        const getAllData = async () => {
+            const response = await axios.get(novelUrl);
+            const data = response.data;
+            const uniqueData = data.reduce((only: Data[], current: Data) => {
+                const find = only.find(item => item.title === current.title);
+                if(!find) {
+                    return only.concat([current]);
+                } else {
+                    return only
+                }
+            }, [])
+            setData(uniqueData);
+        }
+        getAllData();
+    }, [])
 
     const onSubmit = async (data: FormType) => {
+        console.log(data)
         try {
             await axios.post(novelUrl, data);
             alert('投稿完了しました');
@@ -23,15 +42,25 @@ export const CreateNovel: React.FC = () => {
     return (
         <Container>
             <Form onSubmit={handleSubmit(onSubmit)} className={bool ? 'dark-mode' : 'light-mode'}>
-                <H2>新規作成</H2>
+                <H2>更新</H2>
+                <Contents>
+                    <label>タイトル一覧</label>
+                    <Select {...register('title')} onChange={(e) => setValue('title', e.target.value)} className={bool ? 'dark-mode' : 'light-mode'}>
+                        <option value=''>更新したいタイトルを選択して下さい</option>
+                        {data.map((items) => (
+                            <option key={items._id} >{items.title}</option>
+                        ))}
+                    </Select>
+                    <P>{errors.title?.message as React.ReactNode}</P>
+                </Contents>
                 <Contents>
                     <label>タイトル</label>
-                    <Input type="text" {...register('title', { required: '入力は必須です。' })} className={bool ? 'dark-mode' : 'light-mode'} />
+                    <Input type="text" readOnly {...register('title', {required: '選択して下さい'})} className={bool ? 'dark-mode' : 'light-mode'}/>
                     <P>{errors.title?.message as React.ReactNode}</P>
                 </Contents>
                 <Contents>
                     <label>サブタイトル</label>
-                    <Input type="text" {...register('index', { required: '入力は必須です' })} className={bool ? 'dark-mode' : 'light-mode'} />
+                    <Input type="text" {...register('index', { required: '入力は必須です' })} className={bool ? 'dark-mode' : 'light-mode'}/>
                     <P>{errors.index?.message as React.ReactNode}</P>
                 </Contents>
                 <Contents>
@@ -41,7 +70,7 @@ export const CreateNovel: React.FC = () => {
                 </Contents>
                 <Button type="submit">投稿</Button>
             </Form>
-        </Container>
+        </Container >
     )
 }
 
@@ -86,14 +115,14 @@ const H2 = styled.h2`
     @media (max-width: 510px) {
         font-size: 20px;
     }
-`;
+`
 
 const Contents = styled.div`
     display: flex;
     flex-direction: column;
 `;
 
-const Input = styled.input`
+const Select = styled.select`
     width: 650px;
 
     &.dark-mode {
@@ -110,15 +139,32 @@ const Input = styled.input`
     }
 `;
 
+const Input = styled.input`
+    width: 650px;
+
+    &.dark-mode {
+        background-color: #1f1f1f;
+        color: #fff;
+    }
+
+    @media (max-width: 710px) {
+        width: 450px;
+    }
+
+    @media (max-width: 510px) {
+        width: 250px;
+    }
+`;
+
 const Textarea = styled.textarea`
     width: 640px;
     height: 400px;
     padding: 5px;
-    resize: none;
 
     &.dark-mode {
-        background: #1f1f1f;
+        background: #1F1F1F;
         color: #fff;
+        resize: none;
     }
 
     @media (max-width: 710px) {

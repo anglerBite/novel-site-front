@@ -2,6 +2,13 @@
     --base-fontColor: #000;
     --base-backgroundColor: #F6F7F8;
     --body-color: #F0F0F0;
+    --darkMode-BgColor: #1f1f1f;
+    --contents-BgColor: #000;
+    --dark-fontColor: #c5c5c5;
+    --dark-hoverFontColor: #fff;
+    --dark-borderColor: #c5c5c5;
+    --dark-hoverBorderColor: #fff;
+    --dark-hoverContentColor: #040404;
     --radius: 3px;
     --shadow: 0 0 8px 1px #b3b3b3;
     /* --shadow-hover: 0 0 8px 1px #737373; */

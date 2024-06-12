@@ -1,9 +1,14 @@
+
 * {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
 }
 
-body {
+/* .dark-mode {
     background-color: var(--body-color);
 }
+
+.light-mode {
+    background-color: var(--body-color);
+} */

@@ -1,64 +1,111 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components";
+import Cookies from "js-cookie";
+import { AppContext } from "../../main";
+import axios from "axios";
+import { Data } from "../../../src/types/types";
 
 export const IndexPage: React.FC = () => {
 
+    const { Delete, novelUrl } = useContext(AppContext);
+    const [data, setData] = useState<Data[]>([]);
+    console.log(data);
     const navigate = useNavigate();
     const location = useLocation();
-    const { id, title, index, text } = location.state
-    console.log(title)
+    const { id, title } = location.state;
+    console.log(title);
+    const token = Cookies.get('token');
+
+
+    useEffect(() => {
+        const getData = async () => {
+            const response = await axios.get(`${novelUrl}/${title}`)
+            console.log(response);
+            setData(response.data);
+        }
+        getData();
+    }, []);
+
+    const Edit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: string) => {
+        e.stopPropagation();
+
+        if (confirm('編集しますか？')) {
+            navigate('/edit', {
+                state: { path: '/index', index: index }
+            });
+        } else {
+            e.stopPropagation();
+        }
+    }
 
     return (
-        <Div>
-            <Container>
-                <H1>{title}</H1>
-                <P>目次</P>
-                <Ol>
-                    <Li key={id} onClick={() => navigate('/text', {
-                        state: { index: index, text: text }
-                    })}>{index}</Li>
-                </Ol>
-            </Container>
-        </Div>
+        <Container>
+            <H1>{title}</H1>
+            <P>目次</P>
+            <Ol>
+                {data.map(items => (
+                    <Li key={items._id} onClick={() => navigate('/text', {
+                        state: { index: items.index, text: items.text, id: items._id }
+                    })}>{items.index}
+                        {token ?
+                            <Button>
+                                <button onClick={(e) => Edit(e, items.index)}>編集</button>
+                                <button style={{ marginLeft: '5px' }} onClick={() => Delete(id)}>削除</button>
+                            </Button>
+                            :
+                            null}
+                    </Li>
+                ))}
+            </Ol>
+        </Container>
     )
 }
-
-const Div = styled.div`
-
-`
 
 const Container = styled.div`
     width: 500px;
     min-height: calc(100vh - 120px);
     margin: 20px auto;
-    border: 1px solid #000;
-`
-
-const H1 = styled.h1`
+    position: relative;
+    // border: 1px solid #000;
+    
+    @media (max-width: 510px) {
+        width: 300px;
+    }
+    `;
+    
+    const H1 = styled.h1`
     text-align: center;
-    margin: 20px 0;
-`
+    
+    @media (max-width: 510px) {
+        font-size: 26px;
+    }
+}
+`;
 
 const P = styled.p`
     text-align: center;
     font-size: 25px;
     margin: 20px 0;
-`
+
+    @media (max-width: 510px) {
+        font-size: 20px;
+    }
+`;
 
 const Ol = styled.ol`
-    width: 400px;
-    margin: 10px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    `
-    
-const Li = styled.li`
-    cursor: pointer;
-    position: relative;
-    margin-bottom: 10px;
+    // border: 1px solid #000;
+`;
 
+const Li = styled.li`
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 18px;
+    
     &:hover::after {
         content: '';
         width: 100%;
@@ -68,4 +115,10 @@ const Li = styled.li`
         left: 0;
         bottom: 0;
     }
-`
+`;
+
+const Button = styled.div`
+    position: absolute;
+    top: -2px;
+    right: -80px;
+`;

@@ -1,44 +1,78 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import axios from "axios";
-
-type Data = {
-    text: string;
-    index: string;
-    title: string;
-    _id: string;
-}
+import Cookies from "js-cookie";
+import { AppContext } from "../../main";
+import { Data } from "../../../src/types/types";
 
 export const Library: React.FC = () => {
     const [items, setItems] = useState<Data[]>([]);
+    const { bool, novelUrl } = useContext(AppContext);
     const navigate = useNavigate();
 
     useEffect(() => {
         const getAllData = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/novel')
-                console.log(response)
-                setItems(response.data)
+                const response = await axios.get(novelUrl)
+                setItems(response.data);
+                const data = response.data;
+                const uniqueData = data.reduce((only: Data[], current: Data) => {
+                    const find = only.find(items => items.title === current.title);
+                    if (!find) {
+                        return only.concat([current]);
+                    } else {
+                        return only;
+                    }
+                }, [])
+                setItems(uniqueData);
             } catch (err) {
                 console.log(err);
             }
         }
         getAllData();
     }, []);
+    const token = Cookies.get('token');
+
+    const Edit = (title: string) => {
+        if (confirm('編集しますか？')) {
+            navigate('/edit', {
+                state: { path: '/library', title: title }
+            });
+        }
+    }
+
+    const DeleteAll = async (title: string) => {
+        if (confirm('削除してもいいですか？')) {
+            await axios.delete(`${novelUrl}?title=${title}`);
+            alert('削除が完了しました');
+            location.reload();
+        } else {
+            return
+        }
+    }
 
     return (
         <Div>
             <H1>作品一覧</H1>
             <ChapterContainer>
                 {items.map((item) => (
-                    <Chapter
-                        key={item._id}
-                        onClick={() => navigate("/index", {
-                            state: { id: item._id, title: item.title, index: item.index, text: item.text }
-                        })}>
-                        <H2>{item.title}</H2>
-                    </Chapter>
+                    <div key={item._id} style={{ position: 'relative' }}>
+                        {token ?
+                            <Button>
+                                <button onClick={() => Edit(item.title)}>編集</button>
+                                <button style={{ marginLeft: '5px' }} onClick={() => DeleteAll(item.title)}>削除</button>
+                            </Button>
+                            :
+                            null}
+                        <Chapter
+                            onClick={() => navigate("/index", {
+                                state: { title: item.title }
+                            })}
+                            className={bool ? 'dark-mode' : 'light-mode'}>
+                            <H2>{item.title}</H2>
+                        </Chapter>
+                    </div>
                 ))}
             </ChapterContainer>
         </Div>
@@ -46,30 +80,38 @@ export const Library: React.FC = () => {
 }
 
 const Div = styled.div`
-    display: grid;
     min-height: calc(100vh - 100px)
-    grid-template-column: (2, 1fr);
-    grid-gap: 10px;
     border: 1px solid #000;
 `
 
 const H1 = styled.h1`
     text-align: center;
     margin: 20px 0 50px 0;
-`
+`;
 
 const ChapterContainer = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    place-items: center;
-    width: 50%;
+    grid-template-columns: repeat(3, 1fr);
+    width: 900px;
     margin: 0 auto;
-`
+    place-items: center;
+    // border: 1px solid #000;
+    gap: 50px;
+
+    @media (max-width: 900px) {
+        grid-template-columns: repeat(2, 1fr);
+        width: 600px;
+    }
+
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+        width: 400px
+    }
+`;
 
 const Chapter = styled.div`
-    width: 300px;
-    height: 300px;
-    margin: 0 auto;
+    width: 250px;
+    height: 250px;
     border-radius: var(--radius);
     background: var(--base-backgroundColor);
     border: 1px solid #000;
@@ -83,6 +125,24 @@ const Chapter = styled.div`
         &:active {
             box-shadow: var(--shadow-active);
         }
+        &.dark-mode {
+            background: var(--contents-BgColor);
+            color: var(--dark-fontColor);
+            border: 1px solid #fff;
+            box-shadow: none;
+            border: 1px solid var(--dark-borderColor);
+        }
+        &.dark-mode:hover {
+            background: var(--dark-hoverContentColor);
+            color: var(--dark-hoverFontColor)
+            border: 1px solid var(--dark-hoverBorderColor);
+        }
+`
+
+const Button = styled.div`
+    position: absolute;
+    top: -30px;
+    right: 0px;
 `
 
 const H2 = styled.h2`

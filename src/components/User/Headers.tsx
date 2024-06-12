@@ -1,35 +1,52 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
+import { AppContext } from '../../main';
 
 export const Headers: React.FC = () => {
+
+    const {bool} = useContext(AppContext);
+
     const navigate = useNavigate();
+    const token = Cookies.get('token');
+
+    const logout = () => {
+        if (confirm('ログアウトしますか')) {
+            Cookies.remove('token');
+            navigate('/login')
+        } else {
+            return;
+        }
+    }
 
     return (
-        <>
-            <Header>
-                <H1 onClick={() => navigate('/')}>Bulk</H1>
-                <Ul>
-                    <Li>
-                        <StyledLink to='/library'>Library</StyledLink>
-                    </Li>
-                    <Li>
-                        <StyledLink to='/about'>About</StyledLink>
-                    </Li>
-                    <Li>
-                        <StyledLink to='/search'>Search</StyledLink>
-                    </Li>
-                    <Li>
-                        <StyledLink to='/login'>Login</StyledLink>
-                    </Li>
-                    <Li>
-                        <StyledLink to='/Admin'>Admin</StyledLink>
-                    </Li>
-                    {/* LoginとAdminは状態で切り替え,AdminをクリックするとAdminHomeへ飛ぶ */}
-                </Ul>
-            </Header>
-        </>
+        <Header className={bool ? 'dark-mode' : 'light-mode'}>
+            <H1 onClick={() => navigate('/')}>Bulk</H1>
+            <Ul>
+                <Li>
+                    <StyledLink to='/library' className={bool ? 'dark-mode' : 'light-mode'}>Library</StyledLink>
+                </Li>
+                <Li>
+                    <StyledLink to='/search' className={bool ? 'dark-mode' : 'light-mode'}>Search</StyledLink>
+                </Li>
+                {
+                    !token ?
+                        <Li>
+                            <StyledLink to='/login' className={bool ? 'dark-mode' : 'light-mode'}>Login</StyledLink>
+                        </Li>
+                        :
+                        <>
+                            <Li>
+                                <StyledLink to='/Admin' className={bool ? 'dark-mode' : 'light-mode'}>Admin</StyledLink>
+                            </Li>
+                            <Li>
+                                <A onClick={logout} className={bool ? 'dark-mode' : 'light-mode'}>Logout</A>
+                            </Li>
+                        </>
+                }
+            </Ul>
+        </Header>
     )
 }
 
@@ -39,8 +56,14 @@ const Header = styled.header`
     justify-content: space-between;
     background: var(--base-backgroundColor);
     border-bottom: 2px solid #000;
-    height: 100px
-`
+    height: 100px;
+    
+    &.dark-mode {
+        background: #1f1f1f;
+        color: #fff;
+        border-bottom: 2px solid #fff;
+    }
+`;
 
 const H1 = styled.h1`
     color: var(--base-fontcolor);
@@ -55,6 +78,7 @@ const Ul = styled.ul`
     align-items: center;
     padding: 5px;
     margin-right: 10px;
+    color: #fff;
 `
 
 const Li = styled.li`
@@ -67,5 +91,19 @@ const StyledLink = styled(NavLink)`
     color: var(--base-fontColor);
     &.active {
         border-bottom: 1px solid currentColor
+    }
+    &.dark-mode {
+        color: #fff;
+    }
+    `
+    const A = styled.a`
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--base-fontColor);
+    &.active {
+        border-bottom: 1px solid currentColor
+    }
+    &.dark-mode {
+        color: #fff;
     }
 `
