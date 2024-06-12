@@ -8,13 +8,12 @@ import { Data } from "../../../src/types/types";
 
 export const IndexPage: React.FC = () => {
 
-    const { Delete, novelUrl } = useContext(AppContext);
+    const { novelUrl } = useContext(AppContext);
     const [data, setData] = useState<Data[]>([]);
     const navigate = useNavigate();
     const location = useLocation();
     const { title } = location.state;
     const token = Cookies.get('token');
-
 
     useEffect(() => {
         const getData = async () => {
@@ -36,10 +35,18 @@ export const IndexPage: React.FC = () => {
         }
     }
 
-    const handleDelete = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
+    const Delete = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
         e.stopPropagation();
-        await Delete(id);
-    };
+
+        if (confirm('削除してもいいですか？')) {
+            await axios.delete(`${novelUrl}/${id}`);
+            alert('削除が完了しました');
+            const newData = data.filter(item => item._id !== id);
+            setData(newData);
+        } else {
+            e.stopPropagation();
+        }
+    }
 
     return (
         <Container>
@@ -53,7 +60,7 @@ export const IndexPage: React.FC = () => {
                         {token ?
                             <Button>
                                 <button onClick={(e) => Edit(e, items.index)}>編集</button>
-                                <button style={{ marginLeft: '5px' }} onClick={(e) => handleDelete(e, items._id)}>削除</button>
+                                <button style={{ marginLeft: '5px' }} onClick={(e) => Delete(e, items._id)}>削除</button>
                             </Button>
                             :
                             null}
@@ -75,8 +82,8 @@ const Container = styled.div`
         width: 300px;
     }
     `;
-    
-    const H1 = styled.h1`
+
+const H1 = styled.h1`
     text-align: center;
     
     @media (max-width: 510px) {

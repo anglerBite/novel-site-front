@@ -1,13 +1,11 @@
-import React, { ReactNode, createContext, useEffect, useState } from 'react';
+import React, { ReactNode, createContext, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './css/styles.css';
 import './css/custom.css';
 import {Context} from "./types/types.ts";
-import axios from 'axios';
 
 const DefaultContext: Context = {
-  Delete: async () => {},
   toggleSwitch: () => {},
   bool: false,
   mode: 'Dark',
@@ -25,24 +23,6 @@ const AppProvider = ({ children }: {children: ReactNode}) => {
   const novelUrl = import.meta.env.VITE_APP_NOVEL_URL;
   const loginUrl = import.meta.env.VITE_APP_LOGIN_URL;
 
-  const reload = () => {
-    return null;
-  }
-
-  useEffect(() => {
-    reload();
-  }, [novelUrl])
-
-  const Delete = async (id: string) => {
-    if (confirm('削除してもいいですか？')) {
-
-      await axios.delete(`${novelUrl}/${id}`);
-      alert('削除が完了しました');
-    } else {
-      return
-    }
-  }
-
   const toggleSwitch = () => {
     const newBool = !bool;
     setBool(newBool);
@@ -50,7 +30,7 @@ const AppProvider = ({ children }: {children: ReactNode}) => {
   }
 
   return (
-    <AppContext.Provider value={{ Delete, toggleSwitch, bool, mode, novelUrl, loginUrl }}>
+    <AppContext.Provider value={{ toggleSwitch, bool, mode, novelUrl, loginUrl }}>
       {children}
     </AppContext.Provider>
   )

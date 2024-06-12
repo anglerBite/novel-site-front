@@ -47,7 +47,8 @@ export const Library: React.FC = () => {
         if (confirm('削除してもいいですか？')) {
             await axios.delete(`${novelUrl}?title=${title}`);
             alert('削除が完了しました');
-            location.reload();
+            const newItems = items.filter(item => item.title !== title)
+            setItems(newItems);
         } else {
             return
         }

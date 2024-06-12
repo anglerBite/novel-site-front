@@ -1,13 +1,14 @@
 import React, { useContext } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components";
-import { AppContext } from "../../main";
 import Cookies from "js-cookie";
+import axios from "axios";
+import { AppContext } from "../../main";
 
 export const TextPage: React.FC = () => {
 
+    const {novelUrl} = useContext(AppContext)
     const navigate = useNavigate();
-    const { Delete } = useContext(AppContext);
     const location = useLocation();
     const { index, text, id } = location.state;
 
@@ -18,6 +19,17 @@ export const TextPage: React.FC = () => {
             });
         }
     }
+
+    const Delete = async (id: string) => {
+        if (confirm('削除してもいいですか？')) {
+            await axios.delete(`${novelUrl}/${id}`);
+            alert('削除が完了しました');
+            navigate('/library')
+        } else {
+            return
+        }
+    }
+
 
     const token = Cookies.get('token');
 

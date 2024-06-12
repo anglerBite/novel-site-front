@@ -7,7 +7,6 @@ export type Data = {
 }
 
 export type Context = {
-    Delete: (id: string) => Promise<void>;
     toggleSwitch: () => void;
     bool: boolean;
     mode: string;
