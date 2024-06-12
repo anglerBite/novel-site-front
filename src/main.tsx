@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useState } from 'react';
+import React, { ReactNode, createContext, useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './css/styles.css';
@@ -25,12 +25,19 @@ const AppProvider = ({ children }: {children: ReactNode}) => {
   const novelUrl = import.meta.env.VITE_APP_NOVEL_URL;
   const loginUrl = import.meta.env.VITE_APP_LOGIN_URL;
 
+  const reload = () => {
+    return null;
+  }
+
+  useEffect(() => {
+    reload();
+  }, [novelUrl])
+
   const Delete = async (id: string) => {
     if (confirm('削除してもいいですか？')) {
 
       await axios.delete(`${novelUrl}/${id}`);
       alert('削除が完了しました');
-      location.reload();
     } else {
       return
     }

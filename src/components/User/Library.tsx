@@ -14,7 +14,7 @@ export const Library: React.FC = () => {
     useEffect(() => {
         const getAllData = async () => {
             try {
-                const response = await axios.get("https://novelapp-back-439cdb9b2078.herokuapp.com/novel")
+                const response = await axios.get(novelUrl)
                 setItems(response.data);
                 console.log(response.data);
                 const data = response.data;
