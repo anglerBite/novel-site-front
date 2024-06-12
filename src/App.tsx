@@ -13,8 +13,8 @@ import { TextPage } from "./components/User/TextPage";
 import { AddNovel } from "./components/Admin/create/AddNovel";
 import { useContext } from "react";
 import { AppContext } from "./main";
-import styled from "styled-components";
 import { EditHome } from "./components/Admin/edit/EditHome";
+import styled from "styled-components";
 
 
 function App() {
