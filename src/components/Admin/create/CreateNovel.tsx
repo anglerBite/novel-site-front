@@ -14,7 +14,6 @@ export const CreateNovel: React.FC = () => {
         try {
             await axios.post(novelUrl, data);
             alert('投稿完了しました');
-            location.reload();
         } catch (err) {
             alert(err);
         }
