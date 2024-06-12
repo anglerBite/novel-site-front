@@ -26,7 +26,6 @@ export const Search: React.FC = () => {
     const filterTitle = allData.filter(item => item.title.includes(text));
     const onlyTitle = filterTitle.reduce((only: Data[], current: Data) => {
         const find = only.find(items => items.title === current.title);
-        console.log(only)
         if (!find) {
             return only.concat([current]);
         } else {

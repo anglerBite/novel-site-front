@@ -112,6 +112,8 @@ const ChapterContainer = styled.div`
 const Chapter = styled.div`
     width: 250px;
     height: 250px;
+    display: flex;
+    justify-content: center;
     border-radius: var(--radius);
     background: var(--base-backgroundColor);
     border: 1px solid #000;
@@ -146,5 +148,7 @@ const Button = styled.div`
 `
 
 const H2 = styled.h2`
-    text-align: center;
+    padding: 30px 5px 5px 5px;
+    overflow-wrap: break-word;
+    word-break: break-word;
 `

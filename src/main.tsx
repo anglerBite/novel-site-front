@@ -27,6 +27,7 @@ const AppProvider = ({ children }: {children: ReactNode}) => {
 
   const Delete = async (id: string) => {
     if (confirm('削除してもいいですか？')) {
+
       await axios.delete(`${novelUrl}/${id}`);
       alert('削除が完了しました');
       location.reload();

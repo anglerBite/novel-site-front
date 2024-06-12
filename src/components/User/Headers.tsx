@@ -79,11 +79,24 @@ const Ul = styled.ul`
     padding: 5px;
     margin-right: 10px;
     color: #fff;
+
+@media (max-width: 620px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
 `
 
 const Li = styled.li`
     list-style: none;
     margin-left: 60px;
+    font-size: 16px;
+    
+    @media (max-width: 620px) {
+        margin-left: 35px;
+        padding-right: 5px;
+        border-right: 1px solid #000;
+        font-size: 14px;
+    }
 `
 
 const StyledLink = styled(NavLink)`

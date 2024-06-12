@@ -10,18 +10,15 @@ export const IndexPage: React.FC = () => {
 
     const { Delete, novelUrl } = useContext(AppContext);
     const [data, setData] = useState<Data[]>([]);
-    console.log(data);
     const navigate = useNavigate();
     const location = useLocation();
-    const { id, title } = location.state;
-    console.log(title);
+    const { title } = location.state;
     const token = Cookies.get('token');
 
 
     useEffect(() => {
         const getData = async () => {
             const response = await axios.get(`${novelUrl}/${title}`)
-            console.log(response);
             setData(response.data);
         }
         getData();
@@ -39,6 +36,11 @@ export const IndexPage: React.FC = () => {
         }
     }
 
+    const handleDelete = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
+        e.stopPropagation();
+        await Delete(id);
+    };
+
     return (
         <Container>
             <H1>{title}</H1>
@@ -51,7 +53,7 @@ export const IndexPage: React.FC = () => {
                         {token ?
                             <Button>
                                 <button onClick={(e) => Edit(e, items.index)}>編集</button>
-                                <button style={{ marginLeft: '5px' }} onClick={() => Delete(id)}>削除</button>
+                                <button style={{ marginLeft: '5px' }} onClick={(e) => handleDelete(e, items._id)}>削除</button>
                             </Button>
                             :
                             null}
@@ -120,5 +122,5 @@ const Li = styled.li`
 const Button = styled.div`
     position: absolute;
     top: -2px;
-    right: -80px;
+    right: -100px;
 `;

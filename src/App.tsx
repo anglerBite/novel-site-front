@@ -70,6 +70,12 @@ const DarkMode = styled.span`
   top: 120px;
   right: 10px;
   font-weight: bold;
+  
+  @media (max-width: 500px) {
+    top: 110px;
+    right: 10px;
+    font-weight: normal;
+  }
 `;
 
 export default App

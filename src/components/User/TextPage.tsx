@@ -40,7 +40,7 @@ const Container = styled.div`
     width: 600px;
     min-height: calc(100vh - 140px);
     margin: 20px auto;
-    border: 1px solid #000;
+    // border: 1px solid #000;
     overflow: scroll;
 
     @media (max-width: 750px) {
@@ -85,4 +85,9 @@ const Button = styled.div`
     position: absolute;
     top: 30px;
     right: 50px;
+
+    @media (max-width: 510px) {
+        top: 30px;
+        right: 0px;
+    }
 `;
