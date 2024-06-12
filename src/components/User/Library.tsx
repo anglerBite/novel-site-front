@@ -16,6 +16,7 @@ export const Library: React.FC = () => {
             try {
                 const response = await axios.get(novelUrl)
                 setItems(response.data);
+                console.log(response.data);
                 const data = response.data;
                 const uniqueData = data.reduce((only: Data[], current: Data) => {
                     const find = only.find(items => items.title === current.title);
