@@ -22,25 +22,25 @@ export const Headers: React.FC = () => {
 
     return (
         <Header className={bool ? 'dark-mode' : 'light-mode'}>
-            <H1 onClick={() => navigate('/')}>Bulk</H1>
+            <H1 onClick={() => navigate('/')}>Blog</H1>
             <Ul>
-                <Li>
+                <Li className={bool ? 'dark-mode' : 'light-mode'}>
                     <StyledLink to='/library' className={bool ? 'dark-mode' : 'light-mode'}>Library</StyledLink>
                 </Li>
-                <Li>
+                <Li className={bool ? 'dark-mode' : 'light-mode'}>
                     <StyledLink to='/search' className={bool ? 'dark-mode' : 'light-mode'}>Search</StyledLink>
                 </Li>
                 {
                     !token ?
-                        <Li>
+                        <Li className={bool ? 'dark-mode' : 'light-mode'}>
                             <StyledLink to='/login' className={bool ? 'dark-mode' : 'light-mode'}>Login</StyledLink>
                         </Li>
                         :
                         <>
-                            <Li>
+                            <Li className={bool ? 'dark-mode' : 'light-mode'}>
                                 <StyledLink to='/Admin' className={bool ? 'dark-mode' : 'light-mode'}>Admin</StyledLink>
                             </Li>
-                            <Li>
+                            <Li className={bool ? 'dark-mode' : 'light-mode'}>
                                 <A onClick={logout} className={bool ? 'dark-mode' : 'light-mode'}>Logout</A>
                             </Li>
                         </>
@@ -70,7 +70,7 @@ const H1 = styled.h1`
     padding: 25px;
     text-align: center;
     cursor: pointer;
-`
+`;
 
 const Ul = styled.ul`
     display: flex;
@@ -84,20 +84,30 @@ const Ul = styled.ul`
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 }
-`
+`;
 
 const Li = styled.li`
     list-style: none;
     margin-left: 60px;
     font-size: 16px;
-    
+
+    @media (max-width: 800px) {
+        margin-left: 35px;
+        padding-right: 5px;
+        font-size: 14px;
+    }
+
     @media (max-width: 620px) {
         margin-left: 35px;
         padding-right: 5px;
         border-right: 1px solid #000;
         font-size: 14px;
+        
+        &.dark-mode {
+            border-right: 1px solid #fff;
+        }
     }
-`
+`;
 
 const StyledLink = styled(NavLink)`
     text-decoration: none;
@@ -119,4 +129,4 @@ const StyledLink = styled(NavLink)`
     &.dark-mode {
         color: #fff;
     }
-`
+`;

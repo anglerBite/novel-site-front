@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { AppContext } from "../../../../main";
 import { FormType } from "../../../../types/types";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const Edit1: React.FC = () => {
@@ -11,16 +11,16 @@ export const Edit1: React.FC = () => {
     const location = useLocation();
     const { bool, novelUrl } = useContext(AppContext);
     const { title: stateTitle } = location.state;
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormType>();
+    const { register, handleSubmit, formState: { errors }, } = useForm<FormType>();
 
     const [title, setTitle] = useState(stateTitle);
+    const navigate = useNavigate();
 
     const onSubmit = async () => {
         try {
-            const response = await axios.patch(`${novelUrl}?oldTitle=${stateTitle}&newTitle=${title}`);
-            console.log(response);
+            await axios.patch(`${novelUrl}?oldTitle=${stateTitle}&newTitle=${title}`);
             alert('修正が完了しました。');
-            reset();
+            navigate('/library')
         } catch (err) {
             console.log(err)
         }

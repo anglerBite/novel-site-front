@@ -4,7 +4,6 @@ import { Home } from "./components/User/Home";
 import { Library } from "./components/User/Library";
 import { Search } from "./components/User/Search";
 import { NotFound } from "./components/NotFound";
-import { Other } from "./components/User/Other";
 import { IndexPage } from "./components/User/IndexPage";
 import { Login } from "./components/Admin/Login";
 import { AdminHome } from "./components/Admin/AdminHome";
@@ -15,6 +14,9 @@ import { useContext } from "react";
 import { AppContext } from "./main";
 import { EditHome } from "./components/Admin/edit/EditHome";
 import styled from "styled-components";
+import { Edit1 } from "./components/Admin/edit/editPattern/Edit1";
+import { Edit2 } from "./components/Admin/edit/editPattern/Edit2";
+import { Edit3 } from "./components/Admin/edit/editPattern/Edit3";
 
 
 function App() {
@@ -29,7 +31,6 @@ function App() {
         <Routes>
           {/* home */}
           <Route path="/" element={<Home />} />
-          <Route path="/other" element={<Other />} />
           <Route path="/*" element={<NotFound />} />
           {/* header */}
           <Route path="/library" element={<Library />} />
@@ -45,6 +46,9 @@ function App() {
           <Route path="/createnovel" element={<CreateNovel />} />
           {/* Edit */}
           <Route path="/edit" element={<EditHome />} />
+          <Route path="/edit1" element={<Edit1 />} />
+          <Route path="/edit2" element={<Edit2 />} />
+          <Route path="/edit3" element={<Edit3 />} />
         </Routes>
       </Div>
     </BrowserRouter>

@@ -18,9 +18,6 @@ export const Home: React.FC = () => {
                 <Image onClick={() => navigate("/*")} className={bool ? 'dark-mode' : 'light-mode'}>
                     <H2>Picture</H2>
                 </Image>
-                <Other onClick={() => navigate("/*")} className={bool ? 'dark-mode' : 'light-mode'}>
-                    <H2>Special</H2>
-                </Other>
             </Contents>
         </Container>
     )
@@ -108,41 +105,6 @@ const Image = styled.div`
             border: 1px solid var(--dark-hoverBorderColor);
         }
         `
-
-const Other = styled.div`
-        width: 200px;
-        height: 100px;
-        margin: 0 auto;
-        border: 1px solid #000;
-        cursor: pointer;
-        margin-top: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: var(--radius);
-        background: var(--base-backgroundColor);
-        box-shadow: var(--shadow);
-        transition: all 0.3s;
-        &:hover {
-            box-shadow: var(--shadow-hover);
-            transform: translate(4px)
-        }
-        &:active {
-            box-shadow: var(--shadow-active);
-        }
-        &.dark-mode {
-            background: var(--contents-BgColor);
-            color: var(--dark-fontColor);
-            box-shadow: none;
-            border: 1px solid #fff;
-            border: 1px solid var(--dark-borderColor);
-        }
-        &.dark-mode:hover {
-            background: var(--dark-hoverContentColor);
-            color: var(--dark-hoverFontColor);
-            border: 1px solid var(--dark-hoverBorderColor);
-        }
-    `
 
 const H2 = styled.h2`
         text-align: center;

@@ -28,7 +28,7 @@ export const IndexPage: React.FC = () => {
 
         if (confirm('編集しますか？')) {
             navigate('/edit', {
-                state: { path: '/index', index: index }
+                state: { path: '/index', index: index, title: title }
             });
         } else {
             e.stopPropagation();

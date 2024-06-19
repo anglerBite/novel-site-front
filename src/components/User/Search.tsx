@@ -12,8 +12,6 @@ export const Search: React.FC = () => {
 
     const [text, setText] = useState('');
     const [allData, setAllData] = useState<Data[]>([]);
-    console.log(text);
-    console.log(allData);
 
     useEffect(() => {
         const getAllData = async () => {
@@ -32,7 +30,6 @@ export const Search: React.FC = () => {
             return only;
         }
     }, [])
-    console.log(onlyTitle)
 
     return (
         <Div>

@@ -4,24 +4,26 @@ import { useForm } from "react-hook-form";
 import { AppContext } from "../../../../main";
 import { FormType } from "../../../../types/types";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Edit2: React.FC = () => {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const { bool, novelUrl } = useContext(AppContext);
-    const { register, handleSubmit, formState: { errors }, reset } = useForm<FormType>();
+    const { register, handleSubmit, formState: { errors } } = useForm<FormType>();
     const location = useLocation();
     const { index: stateIndex } = location.state;
-
     const [index, setIndex] = useState(stateIndex)
 
     const onSubmit = async () => {
         try {
             const response = await axios.patch(`${novelUrl}/index?oldIndex=${stateIndex}&newIndex=${index}`);
-            console.log(response)
+            console.log(response);
             alert('修正が完了しました。');
-            reset();
+            navigate('/index', {
+                //ここから
+                state: {title: index}
+            })
         } catch (err) {
             console.log(err)
         }
