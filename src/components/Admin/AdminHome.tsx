@@ -12,10 +12,10 @@ export const AdminHome: React.FC = () => {
         <Container>
             <Contents>
                 <Novel onClick={() => navigate("/createnovel")} className={bool ? 'dark-mode' : 'light-mode'}>
-                    <H2>作品新規作成</H2>
+                    <H2>ブログ新規作成</H2>
                 </Novel>
                 <Add onClick={() => navigate("/addnovel")} className={bool ? 'dark-mode' : 'light-mode'}>
-                    <H2>作品更新</H2>
+                    <H2>ブログ更新</H2>
                 </Add>
             </Contents>
         </Container>
