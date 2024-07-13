@@ -22,7 +22,7 @@ export const Headers: React.FC = () => {
 
     return (
         <Header className={bool ? 'dark-mode' : 'light-mode'}>
-            <H1 onClick={() => navigate('/')}>Blog</H1>
+            <H1 onClick={() => navigate('/')}>Novel</H1>
             <Ul>
                 <Li className={bool ? 'dark-mode' : 'light-mode'}>
                     <StyledLink to='/library' className={bool ? 'dark-mode' : 'light-mode'}>Library</StyledLink>

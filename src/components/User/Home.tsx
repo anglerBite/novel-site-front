@@ -13,7 +13,7 @@ export const Home: React.FC = () => {
         <Container>
             <Contents>
                 <Novel onClick={() => navigate("/library")} className={bool ? 'dark-mode' : 'light-mode'}>
-                    <H2>Blog</H2>
+                    <H2>Novel</H2>
                 </Novel>
                 <Image onClick={() => navigate("/*")} className={bool ? 'dark-mode' : 'light-mode'}>
                     <H2>Picture</H2>

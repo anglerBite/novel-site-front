@@ -55,7 +55,7 @@ export const Library: React.FC = () => {
 
     return (
         <Div>
-            <H1>投稿一覧</H1>
+            <H1>作品一覧</H1>
             <ChapterContainer>
                 {items.map((item) => (
                     <div key={item._id} style={{ position: 'relative' }}>
