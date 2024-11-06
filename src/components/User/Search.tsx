@@ -88,7 +88,8 @@ const Box = styled.div`
 const Ul = styled.ul`
     // border: 1px solid #000;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     margin-top: 10px;
 `;
 
